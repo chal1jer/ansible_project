@@ -1,0 +1,27 @@
+---
+- name: "PLAY1 - demo utilisation playbook"
+  # Target/Pattern à qui s'adresse le PLAY
+  hosts: all
+  become: true
+  
+  # Déclaration du bloc Tasks : appel desmodules ansible
+  tasks:
+    - name: "Ajout de l'utilisateur de deploiement via ansible"
+      ansible.builtin.user:
+        name: deploy
+        state: present
+        shell: /bin/bash
+
+    - name: "Depose de la cle publique du ansible management chez le user deploy"
+      ansible.posix.authorized_key:
+        user: deploy
+        state: present
+        key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+
+    - name: "Deploiemet du fichier de règles sudo pour le user deploy"
+      ansible.builtin.copy:
+        dest: /etc/sudoers.d/deploy
+        content: "deploy ALL=(ALL) NOPASSWD:ALL"
+        mode: 0440
+        owner: root
+        group: root
