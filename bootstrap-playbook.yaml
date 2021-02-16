@@ -19,6 +19,11 @@
   #    gege:
 
   tasks:
+    # Utilisation module RAW pour vérifier et tenter d'installer l'interpréteur python3
+    - name: Verification interpreteur python
+      raw: 'bash -c "test -f /usr/bin/python3"'
+      ignore_errors: true
+
     - name: Creation d'un user standard avec groupe sudo,wheel
       ansible.builtin.user:
         name: formation
