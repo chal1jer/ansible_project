@@ -2,8 +2,15 @@
 - name: PLAY - Demo facts
   hosts: linux
 
-  # tasks: 
+  tasks: 
 
-  # # Utilisation de facts recoltes par la task automatique gathering_facts
-  # - name: Utilisation d'un fact
-  # debug: 
+  # Utilisation de facts recoltes par la task automatique gathering_facts
+  - name: Utilisation d'un fact
+  debug: 
+    msg: "Serveur sur distri: {{ ansible_facts.distribution }}"
+
+
+  - name: Récupération de la mémoire free et message si < 1000
+  debug: 
+    msg: "Oups: ce serveur est un peu light en mémoire free: {{ ansible_facts.mem_free_mb }}"
+    when: ansible_facts.memory_mb.real.free < 1000

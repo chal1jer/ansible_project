@@ -3,6 +3,9 @@
   # Target/Pattern à qui s'adresse le PLAY
   hosts: all
   become: true
+
+  vars:
+    deploy_pwd: deploy123
   
   # Déclaration du bloc Tasks : appel desmodules ansible
   tasks:
@@ -11,6 +14,7 @@
         name: deploy
         state: present
         shell: /bin/bash
+        password: "{{ deploy_pwd | password_hash('sha512') }}"
 
     - name: "Depose de la cle publique du ansible management chez le user deploy"
       ansible.posix.authorized_key:
