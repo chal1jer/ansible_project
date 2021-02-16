@@ -1,0 +1,6 @@
+# Arguments supplémentaires au lancement du playbook
+ansible-playbook premier_playbook.yaml --check
+ansible-playbook premier_playbook.yaml --syntax-check
+ansible-playbook premier_playbook.yaml --list-tasks
+ansible-playbook premier_playbook.yaml --limit deby1-A
+

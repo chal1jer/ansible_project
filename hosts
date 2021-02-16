@@ -1,2 +1,9 @@
+[linux:children]
+debian
+centos
+
+[debian]
 deby2-A  ansible_ssh_host=192.168.1.200
+
+[centos]
 centos01  ansible_ssh_host=192.168.1.30
