@@ -1,0 +1,9 @@
+---
+- name: PLAY - Demo facts
+  hosts: linux
+
+  # tasks: 
+
+  # # Utilisation de facts recoltes par la task automatique gathering_facts
+  # - name: Utilisation d'un fact
+  # debug: 
