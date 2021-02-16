@@ -8,4 +8,4 @@
         name: formation
         state: present
         shell: /bin/bash
-        group: sudo
+        group: "{{ sudogrp }}"
