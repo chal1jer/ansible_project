@@ -4,14 +4,22 @@
   hosts: all
   become: true
 
+  
   vars:
+    #deploy_pwd: deploy123
     deploy_pwd: !vault |
           $ANSIBLE_VAULT;1.1;AES256
-          32663630653035353462343961303333323066353064366336613639653336366164626638326162
-          6633326464323666346465346266346231363537343364660a393166663736616462363931333361
-          65346561396565396537643732616639373734336232366161376330303833633962633833653034
-          3530336263343261360a333939643636613033346131376365323933393738656132313163353935
-          3261
+          61613630393865343764326434393361396338303466306133613937353334313962326436346666
+          6336656133323263616635343661396230383331346163310a626232383536613339653533616130
+          32316139363564656331346263343632373131313163373837663862343238363233346563366331
+          3832343930316664610a396339646331313935636135303761333863326539336336623666323861
+          3336
+    #deploy_pwd: $6$password$QSrnnf58znEKU41eJcN9cgKLOp4gkp5XXR6.j1hiiS9mHH2JhLIkZVNYjSkbYypqVVZR1nlgzeDCTuFzMmpMo0
+    #vars_prompt:
+  #  - name: password
+  #    prompt: What is deploy password?
+  #    encrypt: sha512_crypt
+
 
   # Déclaration du block tasks : appel des modules ansible
   tasks:
@@ -20,7 +28,10 @@
         name: deploy
         state: present
         shell: /bin/bash
-        password: "{{ deploy_pwd }}"
+        password: "{{ deploy_pwd | string | password_hash('sha512') }}"
+        update_password: on_create
+        #password: "{{ deploy_pwd }}"
+        # 3 - password: "{{ password }}"
     
     - name: "Dépose de la clé publique du ansible mgmt chez le user deploy"
       ansible.posix.authorized_key:
