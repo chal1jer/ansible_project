@@ -67,7 +67,7 @@
     - name: Generation d'un fichier flag de fin de deploiement
       ansible.builtin.copy:
         content: ""
-        #path: /var/www/{{ mon_appli }}/deploy_ok
+        dest: /var/www/{{ mon_appli }}/deploy_ok
         #state: file
         owner: root
         group: root
