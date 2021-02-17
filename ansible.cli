@@ -10,7 +10,9 @@ $ ansible-playbook premier_playbook.yaml --list-tasks
 $ ansible-playbook premier_playbook.yaml --limit srv01
 
 # Installation du linter ansible dans le virtualenv
-pip install ansible-lint
+pip uninstall ansible-lint
+pip install ansible-lint==4.3.7
+$ ansible-lint bootstrap-playbook.yaml
 
 # Gestion de l'inventaire
 $ ansible-inventory -i hosts --list -y
@@ -47,3 +49,16 @@ https://docs.ansible.com/ansible/latest/user_guide/playbooks_error_handling.html
 1°) Définition du mot de passe directement en variable et hash à l'appel du module user
 2°) Génération d'un mot de passe hashé puis utilisation dans une variable
 $ ansible -i hosts srv01 -m debug -a "msg={{ 'deploy123' | password_hash('sha512', 'password') }}"
+3°) interactive prompt
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_prompts.html
+4°) Vault
+https://docs.ansible.com/ansible/latest/user_guide/vault.html
+https://docs.ansible.com/ansible/2.7/plugins/lookup/hashi_vault.html
+
+$ ansible-vault encrypt_string -n deploy_pwd "deploy123"
+
+$ ansible-vault decrypt vars-bootstrap.yaml
+
+$ ansible-vault encrypt vars-bootstrap.yaml
+
+$ ansible-vault edit vars-bootstrap.yaml
