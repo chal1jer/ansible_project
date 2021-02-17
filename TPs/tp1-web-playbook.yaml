@@ -37,6 +37,7 @@
         owner: root
         group: root
         mode: 0644
+        validate: /usr/sbin/apachectl -t -f %s 
       notify:
         - Reload apache2
 
