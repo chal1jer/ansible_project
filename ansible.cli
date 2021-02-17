@@ -76,4 +76,9 @@ $ ansible-playbook TPs/tp1-web-playbook.yaml -e appli_enable=absent
 ## Ansible Handlers : declenchement d'une action suite à un changement
 => install => config => restart
 Combo : notify => handlers
-© 2021 GitHub, Inc.
+
+
+## Template : jinja2 => python
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_filters.html
+https://docs.ansible.com/ansible/latest/user_guide/playbooks_templating.html
+Fichier dynamique qui contient du texte et des variables, facts et code jinja
