@@ -1,6 +1,6 @@
 ---
 - name: PLAY BOOTSTRAP
-  hosts: all
+  hosts: linux
   become: true
 
   vars_files:
@@ -25,6 +25,17 @@
     - name: tentative d'installation python3
       raw: 'bash -c "(apt-get update && apt install -y python3) || (yum install -y python3)"'
       when: test_python3_output.rc != 0
+
+    # Realisation d'une task avec le system de delegation
+    - name: Modification du fichier ansible.cfg du manager pour ajouter l'interpreteur python
+      community.general.ini_file:
+        path: ansible.cfg
+        section: "all:vars"
+        option: interpreter_python
+        value: /usr/bin/python3
+        mode: '0600'
+        #backup: yes
+      delegate_to: manager
 
     # Tasks communes une fois que le prérequis pythonest satisfait
     - name: Creation d'un user standard avec groupe sudo,wheel
@@ -58,6 +69,12 @@
         name: "{{ ssh_package_list }}"
         state: present
       when: ansible_os_family == 'Debian'
+
+    - name: Gestion du service sshd
+      ansible.builtin.service:
+        name: sshd
+        state: started
+        enabled: yes
 
     - name: Mise a jour de la configuration du serveur ssh
       lineinfile:
